@@ -17,7 +17,12 @@ import {
   useRouter
 } from "@tanstack/react-router";
 
-
+/**
+ * Testing out integration of the router with MUI ListItem components.
+ *
+ * Currently, there's a "home" item and a bunch of different implementations
+ * of the "/about" item, but I'm not happy with how any of them work.
+ */
 export function AppDrawer(props: {
   anchor: 'left' |'right',
   open: boolean,
@@ -59,7 +64,6 @@ export function AppDrawer(props: {
         - no support for search, params, etc.
         - no support for attributes like `preload` */}
         <ListItemButton href={aboutRoute.to}
-          //selected={true}
           selected={!!router.matchRoute(aboutRoute)}
         >
           <ListItemIcon><Info/></ListItemIcon>
