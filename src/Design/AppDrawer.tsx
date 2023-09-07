@@ -1,8 +1,21 @@
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import List from '@mui/material/List';
-import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import {
+  Link as MuiLink,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText
+} from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
-import { People } from "@mui/icons-material";
+import { Info } from "@mui/icons-material";
+import { aboutRoute } from "Page/About.tsx";
+import { homeRoute } from "Page/Home.tsx";
+import {
+  Link as RouterLink,
+  useNavigate,
+  useRouter
+} from "@tanstack/react-router";
 
 
 export function AppDrawer(props: {
@@ -10,30 +23,77 @@ export function AppDrawer(props: {
   open: boolean,
   toggleDrawer: (open:boolean)=>void,
 }){
+  const nav = useNavigate();
+  const router = useRouter();
 
-  const sideList = (
-    // hardcoded width reminds folks that mobile is a thing
+  const sideMenu = (
     <div style={{width: 250}}>
       <List>
-        <ListNavButton href={"page1"}
-          isCurrent={false}
-           description={"Page 1"}
-          icon={<HomeIcon/>}
-        />
-        <ListNavButton href={"page2"}
-          isCurrent={false}
-          description="Page 2"
-          icon={<People/>}/>
+        {/* This is here so I can "reset" the page back to `/` so I can tell
+        if the navigation to about even works */}
+        <ListItemButton href={homeRoute.to}
+          selected={!!router.matchRoute(homeRoute)}>
+          <ListItemIcon><HomeIcon/></ListItemIcon>
+          <ListItemText primary={"Home"} />
+        </ListItemButton>
+
+        {/* un-styled because MUI doesn't know about it.
+        but nice typing:
+        - can use an auto-completed string, and it knows about params, etc.
+        */}
+        <RouterLink to={aboutRoute.to} preload={'intent'}
+          /* without params/search, IDEA gives warning:
+           `Element Link doesn't have required attribute xxx` */
+          params={{}} search={{}}
+        >
+          {/* because this is wrapped in an <a/>, it doesn't function properly
+          (highlight on hover, I assume other things too) */}
+          <ListItem selected={!!router.matchRoute(aboutRoute)}>
+            <ListItemIcon><Info/></ListItemIcon>
+            <ListItemText primary={"About (Link)"} />
+          </ListItem>
+        </RouterLink>
+
+        {/* styled and fully functional, but no typing support:
+        - no completion for href
+        - no support for search, params, etc.
+        - no support for attributes like `preload` */}
+        <ListItemButton href={aboutRoute.to}
+          //selected={true}
+          selected={!!router.matchRoute(aboutRoute)}
+        >
+          <ListItemIcon><Info/></ListItemIcon>
+          <ListItemText primary={"About (ListItemButton)"} />
+        </ListItemButton>
+
+        {/* at least search/params are usable, probably not typed though */}
+        <ListItemButton
+          selected={!!router.matchRoute(aboutRoute)}
+          onClick={()=> nav({to: aboutRoute.to, search: {}, params: {}})}
+        >
+          <ListItemIcon><Info/></ListItemIcon>
+          <ListItemText primary={"About (onClick)"} />
+        </ListItemButton>
+
+        {/* bad styling, bad typing */}
+        <MuiLink href={aboutRoute.to}>
+          About (MuiLink)
+        </MuiLink>
+
+        {/* Doesn't compile - "no overload matches"
+
+        <MuiLink component={RouterLink} to="/about">
+          With prop forwarding
+        </MuiLink>
+        */}
+
       </List>
     </div>
   );
 
-  // const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-
   const onClose = ()=> props.toggleDrawer(false);
+
   return <SwipeableDrawer
-    // disableBackdropTransition={!iOS}
-    // disableDiscovery={iOS}
     open={props.open}
     onClose={onClose}
     onOpen={()=> props.toggleDrawer(true)}
@@ -45,31 +105,8 @@ export function AppDrawer(props: {
       onClick={onClose}
       onKeyDown={onClose}
     >
-      {sideList}
+      {sideMenu}
     </div>
   </SwipeableDrawer>;
 }
 
-function ListNavButton(props: {
-  href: string,
-  description: string,
-  icon?: JSX.Element,
-  adminOnly?: boolean,
-  isCurrent: boolean,
-}){
-  const {isCurrent} = props;
-  const description = <span style={{fontWeight: isCurrent ? "bold":"normal"}}>
-    {props.description}
-  </span>;
-
-  return <ListItemButton href={props.href}
-    //onClick={event=>nav.navigateTo(props.href, event)}
-  >
-    { props.icon &&
-      <ListItemIcon>
-        {props.icon}
-      </ListItemIcon>
-    }
-    <ListItemText primary={description} />
-  </ListItemButton>;
-}

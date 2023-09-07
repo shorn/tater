@@ -1,72 +1,61 @@
-import { createTheme, Theme, ThemeProvider } from "@mui/material";
-import { ReactNode } from "react";
+import { createTheme, ThemeProvider } from "@mui/material";
+import React, { ReactNode } from "react";
+import { Link as RouterLink, LinkPropsOptions as RouterLinkProps } from "@tanstack/react-router";
+import { color } from "Design/Asset/Color.ts";
+import { nativeFontStack } from "Design/Asset/Font.ts";
 
-// https://www.color-name.com/
-// ordered here by color value
-export const Color = {
-  // black shades
-  doNotUseBlack: "#000000",
-  darkCharcoal: "#333333",
-  jet: "#343434",
-  onyx: "#343A40",
-
-  // white shades
-  lotion: "#FAFAFA",
-  doNotUseWhite: "#FFFFFF"
-}
-
-/** use lightColor if light mode, otherwise use darkColor */
-function lightDarkColor(
-  theme: Theme,
-  lightColor: string | undefined = undefined,
-  darkColor: string | undefined = undefined
-): string | undefined{
-  return theme.palette.mode === 'light' ? lightColor : darkColor
-}
-
-/* Not sure about the design of this theme stuff yet; I'm thinking maybe it 
-would be better to run two separate lightMode/darkMode theme objects?
-Then just switch between them.
-Also, maybe want to think about moving the "width" constants from Screen.tsx
-to the DefaultTheme (declared above) - i.e. "custom theme variables"?
-*/
-const mode = createTheme({
-  palette: {
-    mode: 'light',
-    background: {
-      default: Color.lotion
-    },
-  },
-  typography: {
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(',')
-  },
+// from https://mui.com/material-ui/guides/routing/#global-theme-link
+const LinkBehavior = React.forwardRef<
+  HTMLAnchorElement,
+  Omit<RouterLinkProps, 'to'> & { href: RouterLinkProps['to'] }
+>((props, ref) => {
+  const { href, ...other } = props;
+  // Map href (Material UI) -> to (react-router)
+  return <RouterLink ref={ref} to={href} {...other} />;
 });
 
-const theme = createTheme(mode, {
+const muiLightTheme = createTheme({
+
   components: {
+
+    // from https://mui.com/material-ui/guides/routing/#global-theme-link
+    MuiLink: {
+      defaultProps: {
+        component: LinkBehavior,
+      } as RouterLinkProps,
+    },
+    MuiButtonBase: {
+      // should be something list `as RouteButtonProps`?
+      defaultProps: {
+        LinkComponent: LinkBehavior,
+      },
+    },
+
     MuiAppBar: {
       styleOverrides: {
         colorPrimary: {
-          backgroundColor: lightDarkColor(mode, Color.onyx),
+          backgroundColor: color.onyx,
         }
       }
-    }
+    },
+
   },
+
+  typography: {
+    fontFamily: nativeFontStack.join(',')
+  },
+
+  palette: {
+    mode: 'light',
+    background: {
+      default: color.lotion
+    },
+  },
+
 });
 
 export function TaterTheme({children}: { children: ReactNode }){
-  return <ThemeProvider theme={theme}>
+  return <ThemeProvider theme={muiLightTheme}>
     {children}
   </ThemeProvider>
 }

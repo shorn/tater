@@ -23,18 +23,12 @@ export function AppNavBar(){
         <IconButton
           color="inherit"
           href={"/"}
-          //onClick={event=>nav.navigateTo(getMyDetailsPageLink(), event)}
           size="large"
         >
           <HomeIcon/>
         </IconButton>
-        {/*<MenuShortcutBar>*/}
-        {/*  <MenuShortcutNavItem href={getListUserPageLink()}>*/}
-        {/*    Users*/}
-        {/*  </MenuShortcutNavItem>*/}
-        {/*</MenuShortcutBar>*/}
 
-        {/*flexgrow pushes the icons over to the right */}
+        {/* flexGrow pushes the icons over to the right */}
         <Typography variant="h6" color="inherit" style={{flexGrow: 1}} />
         <div>
           <AccountMenu/>
