@@ -34,25 +34,28 @@ export function AppDrawer(props: {
   const sideMenu = (
     <div style={{width: 250}}>
       <List>
-        {/* This is here so I can "reset" the page back to `/` so I can tell
-        if the navigation to about even works */}
+        {/* This is here so I can "reset" the page back to `/` so I can easily
+        tell if the navigation to `/about` even works */}
         <ListItemButton href={homeRoute.to}
           selected={!!router.matchRoute(homeRoute)}>
           <ListItemIcon><HomeIcon/></ListItemIcon>
           <ListItemText primary={"Home"} />
         </ListItemButton>
 
-        {/* un-styled because MUI doesn't know about it.
-        but nice typing:
-        - can use an auto-completed string, and it knows about params, etc.
+        {/* Styling is off because MUI doesn't know about RouterLink and because
+        List is expected to work with ListItem/ListItemButton components,
+        not anchors.
+        Nice typing:
+        - can use an auto-completed string for `to`,
+        - it knows about preload, and I assume params and search are typed
+        But it doesn't function properly:
+        - highlight on hover, I assume other things too
         */}
         <RouterLink to={aboutRoute.to} preload={'intent'}
           /* without params/search, IDEA gives warning:
            `Element Link doesn't have required attribute xxx` */
           params={{}} search={{}}
         >
-          {/* because this is wrapped in an <a/>, it doesn't function properly
-          (highlight on hover, I assume other things too) */}
           <ListItem selected={!!router.matchRoute(aboutRoute)}>
             <ListItemIcon><Info/></ListItemIcon>
             <ListItemText primary={"About (Link)"} />
