@@ -74,5 +74,25 @@ If you are developing a production application, we recommend updating the config
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
-```
+
+
+## HMR breaks with non-react stuff in TSX files
+
+https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+
+I think this means that Vite HMR requires you not define anything in a TSX file
+except React components.  No utility functions, classes, constants or types.
+
+And it breaks with no notification in the browser either, so you have to check 
+the console all the time.
+
+I use non-react TypeScript exports a lot in my TSX files - because it's the
+sensible way to do many things.  
+
+Tater example: defining and exporting the route constant from the TSX file where
+the component that renders the route lives.  This was breaking HMR when I was 
+frobbing things from using `aboutRoute` to explicit `/about` strings - each time
+I did that, the HMR would freak out.
+
+This makes Vite HMR close to useless the way I write apps.
 

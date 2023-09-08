@@ -1,0 +1,1 @@
+Contains public files, like the icon, etc.

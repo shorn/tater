@@ -5,7 +5,7 @@ import { color } from "Design/Asset/Color.ts";
 import { nativeFontStack } from "Design/Asset/Font.ts";
 
 // from https://mui.com/material-ui/guides/routing/#global-theme-link
-const LinkBehavior = React.forwardRef<
+export const LinkBehavior = React.forwardRef<
   HTMLAnchorElement,
   Omit<RouterLinkProps, 'to'> & { href: RouterLinkProps['to'] }
 >((props, ref) => {

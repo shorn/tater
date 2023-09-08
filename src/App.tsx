@@ -11,8 +11,8 @@ import {
 } from "@tanstack/react-router";
 import React from "react";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
-import { homeRoute } from "Page/Home.tsx";
-import { aboutRoute } from "Page/About.tsx";
+import { homeRoute } from "Route/Home.tsx";
+import { aboutRoute } from "Route/About.tsx";
 
 export function App() {
   return <TaterTheme>

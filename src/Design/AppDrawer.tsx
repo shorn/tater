@@ -9,8 +9,8 @@ import {
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import { Info } from "@mui/icons-material";
-import { aboutRoute } from "Page/About.tsx";
-import { homeRoute } from "Page/Home.tsx";
+import { aboutRoute } from "Route/About.tsx";
+import { homeRoute } from "Route/Home.tsx";
 import {
   Link as RouterLink,
   useNavigate,
