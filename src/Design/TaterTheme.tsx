@@ -25,7 +25,7 @@ const muiLightTheme = createTheme({
       } as RouterLinkProps,
     },
     MuiButtonBase: {
-      // should be something list `as RouteButtonProps`?
+      // should be something like `as RouteButtonProps`?
       defaultProps: {
         LinkComponent: LinkBehavior,
       },
