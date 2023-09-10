@@ -1,8 +1,13 @@
 # TAnstack-router TEst Repo
 
-Learning about the router.
+This repo is for me to learn about the router and how to use it.
 
 * https://github.com/TanStack/router
+
+
+Note that I am not an export in usage of the router, or TypeScript/MUI in 
+general.  Specifically, I'm not at all sure how I've integrated MUI and the
+router is the "right" way to do it.  It's just what I've managed to get working.
 
 
 Also first time trying out Vite

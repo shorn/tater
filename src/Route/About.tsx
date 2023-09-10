@@ -8,6 +8,7 @@ export const aboutRoute = new Route({
   getParentRoute: () => rootRoute,
   path: '/about',
   component: About,
+
 });
 
 export function About(){
