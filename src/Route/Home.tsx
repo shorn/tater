@@ -5,6 +5,7 @@ import { ContainerCard } from "Component/ContainerCard.tsx";
 import { Link as MuiLink, List, ListItem } from "@mui/material";
 import { aboutRoute } from "Route/About.tsx";
 import React from "react";
+import { itemViewRoute } from "Route/Item.tsx";
 
 export const homeRoute = new Route({
   getParentRoute: () => rootRoute,
@@ -26,6 +27,28 @@ export function Home(){
               search={{}} params={{}}
             >About</MuiLink>
           </ListItem>
+
+          {/* compile error:
+          Type '{ itemId: string; }' is not assignable to type 'Omit<never, never>'.
+          */}
+          <ListItem>
+            <MuiLink component={RouterLink}
+              to={itemViewRoute.to}
+              preload={'intent'}
+              search={{}} params={{itemId: '42'}}
+            >
+              View Item 42 (MuiLink)
+            </MuiLink>
+          </ListItem>
+
+          <ListItem>
+            <RouterLink to={itemViewRoute.to}
+              params={{itemId: "42"}} search={{}}
+            >
+              View Item 42 (RouterLink)
+            </RouterLink>
+          </ListItem>
+
 
         </List>
 
