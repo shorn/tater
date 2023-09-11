@@ -13,7 +13,8 @@ import React from "react";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { homeRoute } from "Route/Home.tsx";
 import { aboutRoute } from "Route/About.tsx";
-import { itemIdRoute, itemRoute, itemViewRoute } from "Route/Item.tsx";
+import { itemViewRoute } from "Route/Item.tsx";
+import { notFoundRoute } from "Route/NotFound.tsx";
 
 export function App() {
   return <TaterTheme>
@@ -39,8 +40,8 @@ export const rootRoute = new RootRoute({
 });
 
 const routeTree = rootRoute.addChildren([
-  homeRoute, aboutRoute,
-  itemRoute, itemIdRoute, itemViewRoute
+  homeRoute, aboutRoute, notFoundRoute,
+  itemViewRoute
 ]);
 
 const router = new Router({ routeTree });

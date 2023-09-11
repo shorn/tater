@@ -1,5 +1,5 @@
 import { SmallContentMain } from "Design/LayoutMain.tsx";
-import { Link as RouterLink, Route } from "@tanstack/react-router";
+import { Link as RouterLink, Route, useNavigate } from "@tanstack/react-router";
 import { rootRoute } from "App.tsx";
 import { ContainerCard } from "Component/ContainerCard.tsx";
 import { Link as MuiLink, List, ListItem } from "@mui/material";
@@ -14,6 +14,8 @@ export const homeRoute = new Route({
 });
 
 export function Home(){
+  const nav = useNavigate({from: homeRoute.to});
+
   return <>
     <SmallContentMain>
       <ContainerCard title={"Home"}>
@@ -30,7 +32,6 @@ export function Home(){
 
           {/* compile error:
           Type '{ itemId: string; }' is not assignable to type 'Omit<never, never>'.
-          */}
           <ListItem>
             <MuiLink component={RouterLink}
               to={itemViewRoute.to}
@@ -40,15 +41,28 @@ export function Home(){
               View Item 42 (MuiLink)
             </MuiLink>
           </ListItem>
+          */}
+
+          {/* does go to the intended route, but:
+          - typing doesn't work - no suggestions, no errors if params is wrong
+          - because it uses onClick, user can't focus to preview href
+          */}
+          <ListItem>
+            <MuiLink onClick={
+              ()=> nav({to: itemViewRoute.to, params: {itemId: "42"}, search: {}})
+            }>
+              View Item 42 (MuiLink onClick)
+            </MuiLink>
+          </ListItem>
 
           <ListItem>
+            {/* no MUI styles or functionality */}
             <RouterLink to={itemViewRoute.to}
               params={{itemId: "42"}} search={{}}
             >
               View Item 42 (RouterLink)
             </RouterLink>
           </ListItem>
-
 
         </List>
 
