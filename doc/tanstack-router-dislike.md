@@ -9,6 +9,13 @@ Pretty sure I'm not doing it right at the moment, but there's not much doco
 on this.  Which is understandable, given the router hasn't had its first release
 yet.
 
+Note: the issue is about **type-checking** - this repo shows that router can
+*function* with MUI, but I just can't figure out how to use MUI components
+while maintaining the router's type-checking.
+
+I'm not blaming router here - it's just that they're two completely
+separate codebases with their own complicated typing arrangements. 
+
 
 ## Example documentation doesn't work in Firefox
 
